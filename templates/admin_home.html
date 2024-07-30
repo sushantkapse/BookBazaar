@@ -1,0 +1,66 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h2>Dashboard</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Books</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_books }}</h5>
+                    <p class="card-text">Total Books</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Orders</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_orders }}</h5>
+                    <p class="card-text">Total Orders</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Customers</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_customers }}</h5>
+                    <p class="card-text">Total Customers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mt-5">Sales</h2>
+    <ul>
+        <li>Daily Sales: ${{ daily_sales }}</li>
+        <li>Weekly Sales: ${{ weekly_sales }}</li>
+        <li>Monthly Sales: ${{ monthly_sales }}</li>
+        <li>Yearly Sales: ${{ yearly_sales }}</li>
+    </ul>
+
+    <h2 class="mt-5">Orders to Confirm</h2>
+    <ul>
+        {% for order in orders %}
+        <li>
+            Order ID: {{ order.id }} | Total Amount: ${{ order.total_amount }}
+            <form method="post" action="{% url 'order_confirm' order.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">Confirm Order</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2 class="mt-5">Customers</h2>
+    <ul>
+        {% for customer in customers %}
+        <li>{{ customer.username }} - {{ customer.email }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

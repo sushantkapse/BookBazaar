@@ -1,0 +1,58 @@
+<!-- add_category.html -->
+{% extends 'admin_base.html' %}
+{% block title %}Add Category{% endblock %}
+{% block body %}
+<body>
+    <div class="container mt-5">
+        <nav class="mb-4">
+            <button class="btn btn-primary" onclick="window.location.href='{% url 'admin_home' %}'">Admin Dashboard</button>
+        </nav>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Add Category</h2>
+            </div>
+            <div class="card-body">
+                <a class="btn btn-success" href="{% url 'admin_add_category' %}">Add Category</a>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Search Categories</h2>
+            </div>
+            <div class="card-body">
+                <form method="get" action="{% url 'admin_category_list' %}">
+                    <div class="form-group">
+                        <label for="search">Search:</label>
+                        <input type="text" class="form-control" id="search" name="search" value="{{ request.GET.search }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Categories</h2>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for category in categories %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ category.name }}
+                            <div>
+                                <form method="post" action="{% url 'admin_delete_category' category.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                                <a href="{% url 'admin_edit_category' category.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

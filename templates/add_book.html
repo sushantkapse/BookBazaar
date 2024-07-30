@@ -1,0 +1,49 @@
+<!-- add_book.html -->
+{% extends 'base.html' %}
+{% block title %}Add Book{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Add Book</h2>
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_title">Title:</label>
+                <input type="text" class="form-control" id="id_title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="id_author">Author:</label>
+                <input type="text" class="form-control" id="id_author" name="author" required>
+            </div>
+            <div class="form-group">
+                <label for="id_categories">Categories:</label><br>
+                {% for category in categories %}
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="category_{{ category.id }}" name="categories" value="{{ category.id }}">
+                        <label class="form-check-label" for="category_{{ category.id }}">{{ category.name }}</label><br>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="id_description">Description:</label>
+                <textarea class="form-control" id="id_description" name="description" rows="4" cols="50"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="id_price">Price:</label>
+                <input type="text" class="form-control" id="id_price" name="price" required>
+            </div>
+            <div class="form-group">
+                <label for="id_published_date">Published Date:</label>
+                <input type="date" class="form-control" id="id_published_date" name="published_date" required>
+            </div>
+            <div class="form-group">
+                <label for="id_image">Image:</label>
+                <input type="file" class="form-control-file" id="id_image" name="image">
+            </div>
+            <button type="submit" class="btn btn-primary">Save Book</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

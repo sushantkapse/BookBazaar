@@ -1,0 +1,41 @@
+{% comment %} {% extends 'base.html' %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block body %}
+<h1>Welcome to Your Dashboard Sushant</h1>
+
+<!-- Book List Section -->
+<div class="row mt-4">
+    <div class="col-md-3">
+        <!-- Categories Sidebar -->
+        <h4>Categories</h4>
+        <ul class="list-group">
+            {% for category in categories %}
+            <li class="list-group-item">
+                <a href="{% url 'category_books' category.slug %}">{{ category.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <!-- Book Listings -->
+        <h2>Books</h2>
+        <div class="row">
+            {% for book in books %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <p class="card-text">{{ book.description }}</p>
+                        <p class="card-text">Price: ${{ book.price }}</p>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %} {% endcomment %}

@@ -1,0 +1,81 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Monthly Sales Report{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h2>Monthly Sales Report</h2>
+
+    <!-- Daily Data Table -->
+    <h3>Daily Sales Data</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Total Orders</th>
+                <th>Total Sales</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in daily_data %}
+            <tr>
+                <td>{{ data.day }}</td>
+                <td>{{ data.total_orders }}</td>
+                <td>${{ data.total_sales }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Weekly Data Table -->
+    <h3 class="mt-5">Weekly Sales Data</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Week</th>
+                <th>Total Orders</th>
+                <th>Total Sales</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for week in weekly_data %}
+            <tr>
+                <td>{{ week.start_date }} to {{ week.end_date }}</td>
+                <td>{{ week.total_orders }}</td>
+                <td>${{ week.total_sales }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Summary Statistics -->
+    <div class="mt-5">
+        <h3>Summary Statistics</h3>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <strong>Total Monthly Sales:</strong> ${{ total_monthly_sales }}
+            </li>
+            <li class="list-group-item">
+                <strong>Total Orders This Month:</strong> {{ total_orders_this_month }}
+            </li>
+        </ul>
+    </div>
+
+    <!-- Daily Sales Line Chart -->
+    <h3 class="mt-5">Daily Sales Chart</h3>
+    <img src="data:image/png;base64,{{ daily_sales_chart }}" alt="Daily Sales Chart" class="img-fluid">
+
+    <!-- Weekly Sales Bar Chart -->
+    <h3 class="mt-5">Weekly Sales Chart</h3>
+    <img src="data:image/png;base64,{{ bar_chart }}" alt="Weekly Sales Chart" class="img-fluid">
+
+    <!-- Weekly Sales Pie Chart -->
+    <h3 class="mt-5">Weekly Sales Distribution</h3>
+    <img src="data:image/png;base64,{{ pie_chart }}" alt="Weekly Sales Pie Chart" class="img-fluid">
+
+    <!-- Download Button -->
+    <div class="mt-5">
+        <a href="{% url 'download_monthly_report' %}" class="btn btn-primary">Download Monthly Report</a>
+    </div>
+</div>
+{% endblock %}

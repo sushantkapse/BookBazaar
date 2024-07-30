@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Confirmation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Order Confirmation</h1>
+    <p>Thank you for your order!</p>
+    <h2>Order Details</h2>
+    <p><strong>Order ID:</strong> {{ order.id }}</p>
+    <p><strong>Order Date:</strong> {{ order.created_at }}</p>
+    <p><strong>Status:</strong> {{ order_status }}</p>
+    <h3>Shipping Address</h3>
+    <p>{{ order.address_line1 }}</p>
+    <p>{{ order.address_line2 }}</p>
+    <p>{{ order.city }}, {{ order.state }} {{ order.zip_code }}</p>
+    <h3>Items</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_items %}
+            <tr>
+                <td>{{ item.book.title }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.price }}</td>
+                <td>${{ item.total_price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-right">
+        <h4>Total: ${{ order_total }}</h4>
+    </div>
+    <a href="{% url 'user_home' %}" class="btn btn-primary">Go to Home</a>
+    {% comment %} <a href="{% url 'order_invoice' order.id %}" class="btn btn-secondary">Download Invoice</a>
+     {% endcomment %}
+     <a href="{% url 'order_invoice' order.id %}" class="btn btn-secondary">Download Invoice</a>
+
+</div>
+{% endblock %}

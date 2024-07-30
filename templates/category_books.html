@@ -1,0 +1,28 @@
+{% extends 'user_base.html' %}
+
+{% block title %}Shop Category{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ category.name }}</h2>
+    {% comment %} <p>{{ category.description }}</p> {% endcomment %}
+    <div class="row">
+        {% for book in books %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <img src="/media/{{ book.image }}" class="card-img-top" alt="{{ book.title }}">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <p class="card-text">{{ book.description }}</p>
+                    <p class="card-text">Price: ${{ book.price }}</p>
+                    <form action="{% url 'add_to_cart' book.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Book List{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <nav class="my-4">
+                <button class="btn btn-secondary" onclick="window.location.href='{% url 'admin_home' %}'">Admin Dashboard</button>
+                <button class="btn btn-primary ml-2" onclick="window.location.href='{% url 'admin_add_book' %}'">Add Book</button>
+            </nav>
+            <h2 class="mt-4">Book List</h2>
+            <ul class="list-group">
+                {% for book in book_list %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ book.title }} - {{ book.author }}
+                        <div class="btn-group">
+                            <a href="{% url 'admin_edit_book' book.id %}" class="btn btn-secondary btn-sm">Update</a>
+                            <a href="{% url 'admin_delete_book' book.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

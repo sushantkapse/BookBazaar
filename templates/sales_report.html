@@ -1,0 +1,63 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Sales Report{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h2>Weekly Sales Report</h2>
+    
+    <!-- Weekly Data Table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Total Orders</th>
+                <th>Pending Orders</th>
+                <th>Confirmed Orders</th>
+                <th>Total Sales</th>
+                <th>Confirmed Sales</th>
+                <th>Pending Sales</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in weekly_data %}
+            <tr>
+                <td>{{ data.day }}</td>
+                <td>{{ data.total_orders }}</td>
+                <td>{{ data.pending_orders }}</td>
+                <td>{{ data.confirmed_orders }}</td>
+                <td>${{ data.total_sales }}</td>
+                <td>${{ data.confirmed_sales }}</td>
+                <td>${{ data.pending_sales }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="mt-5">
+        <h3>Summary Statistics</h3>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <strong>Total Weekly Sales:</strong> ${{ total_weekly_sales }}
+            </li>
+            <li class="list-group-item">
+                <strong>Total Orders This Week:</strong> {{ total_orders_this_week }}
+            </li>
+            <li class="list-group-item">
+                <strong>Total Monthly Sales:</strong> ${{ total_monthly_sales }}
+            </li>
+            <li class="list-group-item">
+                <strong>Total Sales:</strong> ${{ total_sales }}
+            </li>
+        </ul>
+    </div>
+
+    <!-- Weekly Sales Chart -->
+    <h2 class="mt-5">Sales Chart</h2>
+    <img src="data:image/png;base64,{{ weekly_sales_chart }}" alt="Weekly Sales Chart" class="img-fluid">
+
+    <a href="{% url 'download_sales_report' %}" class="btn btn-primary mt-4">Download Report</a>
+
+    <!-- Summary Statistics -->
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Checkout</h1>
+
+    {% if cart_items %}
+    <form method="post" action="{% url 'checkout' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="address_line1">Address Line 1</label>
+            <input type="text" class="form-control" id="address_line1" name="address_line1" required>
+        </div>
+        <div class="form-group">
+            <label for="address_line2">Address Line 2</label>
+            <input type="text" class="form-control" id="address_line2" name="address_line2">
+        </div>
+        <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" class="form-control" id="city" name="city" required>
+        </div>
+        <div class="form-group">
+            <label for="state">State</label>
+            <input type="text" class="form-control" id="state" name="state" required>
+        </div>
+        <div class="form-group">
+            <label for="zip_code">Zip Code</label>
+            <input type="text" class="form-control" id="zip_code" name="zip_code" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Place Order</button>
+    </form>
+
+    <h2 class="mt-5">Cart Items</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item_total in item_totals %}
+            <tr>
+                <td>{{ item_total.item.book.title }}</td>
+                <td>{{ item_total.item.quantity }}</td>
+                <td>${{ item_total.item_total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-right">
+        <h4>Total: ${{ total_price }}</h4>
+    </div>
+
+    {% else %}
+    <p>Your cart is empty.</p>
+    <a href="{% url 'user_home' %}" class="btn btn-primary">Continue Shopping</a>
+    {% endif %}
+</div>
+{% endblock %}

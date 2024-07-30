@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h3 {
+            color: #343a40;
+        }
+        p {
+            margin: 5px 0;
+        }
+        .address, .order-details, .items {
+            margin-bottom: 20px;
+        }
+        .items table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .items th, .items td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: left;
+        }
+        .items th {
+            background-color: #343a40;
+            color: #fff;
+        }
+        .items td {
+            background-color: #f8f9fa;
+        }
+        .total {
+            text-align: right;
+            margin-right: 30px;
+        }
+        .total h4 {
+            color: #343a40;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Invoice</h1>
+        <div class="order-details">
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <p><strong>Order Date:</strong> {{ order.created_at }}</p>
+            <p><strong>Status:</strong> {{ 'Confirmed' if order.is_confirmed else 'Pending' }}</p>
+        </div>
+        <div class="address">
+            <h3>Shipping Address</h3>
+            <p>{{ order.address_line1 }}</p>
+            <p>{{ order.address_line2 }}</p>
+            <p>{{ order.city }}, {{ order.state }} {{ order.zip_code }}</p>
+        </div>
+        <div class="items">
+            <h3>Items</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order_items %}
+                    <tr>
+                        <td>{{ item.book.title }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.price }}</td>
+                        <td>${{ item.total_price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="total">
+            <h4>Total: ${{ order.total_amount }}</h4>
+        </div>
+    </div>
+</body>
+</html>

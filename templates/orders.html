@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>My Orders</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>${{ order.total_amount }}</td>
+                <td>{{ order.is_confirmed|yesno:"Confirmed,Pending" }}</td>
+                <td><a href="{% url 'order_confirmation' order.id %}" class="btn btn-primary">View</a>
+                    <a href="{% url 'order_invoice' order.id %}" class="btn btn-secondary">Download Invoice</a>
+                
+                    <form method="post" action="{% url 'delete_order' order.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'user_home' %}" class="btn btn-primary">Go to Home</a>
+</div>
+{% endblock %}
